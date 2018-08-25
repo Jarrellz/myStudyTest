@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 @RunWith(SpringRunner.class)
@@ -20,10 +21,23 @@ public class DemoApplicationTests {
 	public void contextLoads() {
 		System.out.println(dataSource.getClass());
 
+		Connection connection = null;
 		try {
-			System.out.println(dataSource.getConnection());
+//			dataSource.getConnection()
+			connection = dataSource.getConnection();
+
+
+			System.out.println(connection);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			if(connection != null){
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 
